@@ -1343,29 +1343,24 @@
                 right: 0;
                 bottom: 0;
                 width: 100%;
-                height: 100vh;
-                max-width: none;
+                height: 100%;
                 margin: 0;
                 border-radius: 0;
+                display: none;
                 z-index: 2000;
             }
 
-            .chat-header {
-                padding: 15px;
-                position: relative;
-            }
-
-            .close-chat {
-                position: absolute;
-                right: 15px;
-                top: 50%;
-                transform: translateY(-50%);
-                font-size: 28px;
+            .chat-window.active {
+                display: flex;
+                flex-direction: column;
             }
 
             .chat-messages {
-                height: calc(100vh - 140px);
+                flex: 1;
+                height: calc(100vh - 120px);
                 padding: 15px;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
             }
 
             .chat-input {
@@ -1373,19 +1368,42 @@
                 bottom: 0;
                 left: 0;
                 right: 0;
-                padding: 10px;
+                padding: 8px;
                 background: white;
                 box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+                z-index: 2001;
             }
 
             .chat-input textarea {
-                padding: 12px;
+                max-height: 80px;
+                padding: 8px;
                 font-size: 16px;
+                line-height: 1.4;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+                resize: none;
+                -webkit-appearance: none;
             }
 
-            .send-button {
-                padding: 12px 20px;
-                font-size: 16px;
+            .chat-input .send-button {
+                height: 36px;
+                padding: 0 16px;
+                font-size: 14px;
+                border-radius: 4px;
+            }
+
+            .typing-indicator {
+                margin-bottom: 60px;
+            }
+
+            @supports (-webkit-touch-callout: none) {
+                .chat-messages {
+                    height: calc(100vh - 120px - env(safe-area-inset-bottom));
+                }
+                
+                .chat-input {
+                    padding-bottom: calc(8px + env(safe-area-inset-bottom));
+                }
             }
 
             .message {
@@ -1600,11 +1618,73 @@
         }
 
         .is-mobile .chat-window {
-            width: 100%;
-            height: 100vh;
-            bottom: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
             right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
             border-radius: 0;
+            display: none;
+            z-index: 2000;
+        }
+
+        .is-mobile .chat-window.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .is-mobile .chat-messages {
+            flex: 1;
+            height: calc(100vh - 120px);
+            padding: 15px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .is-mobile .chat-input {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 8px;
+            background: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 2001;
+        }
+
+        .is-mobile .chat-input textarea {
+            max-height: 80px;
+            padding: 8px;
+            font-size: 16px;
+            line-height: 1.4;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: none;
+            -webkit-appearance: none;
+        }
+
+        .is-mobile .chat-input .send-button {
+            height: 36px;
+            padding: 0 16px;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        .is-mobile .typing-indicator {
+            margin-bottom: 60px;
+        }
+
+        @supports (-webkit-touch-callout: none) {
+            .is-mobile .chat-messages {
+                height: calc(100vh - 120px - env(safe-area-inset-bottom));
+            }
+            
+            .is-mobile .chat-input {
+                padding-bottom: calc(8px + env(safe-area-inset-bottom));
+            }
         }
 
         .is-mobile .chat-button {
@@ -2479,6 +2559,37 @@
             }
         });
     </script>
+
+    <script>
+        // 在现有的 DOMContentLoaded 事件监听器中添加以下代码
+        if (detectDevice()) {
+            const chatInput = document.querySelector('.chat-input textarea');
+            const chatMessages = document.querySelector('.chat-messages');
+            
+            chatInput.addEventListener('focus', function() {
+                // 滚动到底部
+                setTimeout(() => {
+                    chatMessages.scrollTop = chatMessages.scrollHeight;
+                    window.scrollTo(0, 0);
+                }, 300);
+            });
+
+            chatInput.addEventListener('blur', function() {
+                // 恢复滚动
+                setTimeout(() => {
+                    window.scrollTo(0, 0);
+                }, 100);
+            });
+
+            // 防止页面弹跳
+            document.body.addEventListener('touchmove', function(e) {
+                if (document.querySelector('.chat-window.active')) {
+                    e.preventDefault();
+                }
+            }, { passive: false });
+        }
+    </script>
 </body>
 </html>
+
 
