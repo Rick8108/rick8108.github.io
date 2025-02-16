@@ -233,9 +233,10 @@
         /* 团队部分样式 */
         .team-section {
             padding: 6rem 2rem;
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            background: linear-gradient(135deg, #1e3d59, #17263b);
             position: relative;
             overflow: hidden;
+            color: var(--text-light);
         }
 
         .team-section::before {
@@ -245,8 +246,8 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><path d="M30 0L60 30L30 60L0 30L30 0Z" fill="%231e3d59" fill-opacity="0.03"/></svg>');
-            background-size: 60px 60px;
+            background: url('data:image/svg+xml,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50 0L100 50L50 100L0 50Z" fill="%23ffffff" fill-opacity="0.03"/></svg>');
+            background-size: 100px 100px;
         }
 
         .team-grid {
@@ -261,7 +262,9 @@
 
         .team-member {
             text-align: center;
-            background: white;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 20px;
             padding: 2.5rem;
             position: relative;
@@ -311,7 +314,7 @@
         }
 
         .team-member h3 {
-            color: var(--primary-color);
+            color: var(--text-light);
             font-size: 1.8rem;
             margin-bottom: 0.5rem;
             transform: translateZ(15px);
@@ -340,7 +343,7 @@
         }
 
         .team-member p {
-            color: #666;
+            color: rgba(255, 255, 255, 0.8);
             font-size: 1rem;
             line-height: 1.6;
             transform: translateZ(5px);
@@ -349,6 +352,7 @@
         .team-section .section-title {
             position: relative;
             margin-bottom: 4rem;
+            color: var(--text-light);
         }
 
         .team-section .section-title::after {
@@ -974,12 +978,16 @@
             margin-top: 3rem;
         }
 
+        /* 课程卡片样式优化 */
         .course-card {
             background: white;
-            border-radius: 15px;
+            border-radius: 20px;
             overflow: hidden;
             box-shadow: var(--card-shadow);
             transition: var(--transition-smooth);
+            position: relative;
+            display: flex;
+            flex-direction: column;
         }
 
         .course-card:hover {
@@ -988,8 +996,19 @@
         }
 
         .course-image {
-            height: 200px;
+            height: 240px;
             overflow: hidden;
+            position: relative;
+        }
+
+        .course-image::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
         }
 
         .course-image img {
@@ -1005,44 +1024,156 @@
 
         .course-content {
             padding: 2rem;
+            position: relative;
+            background: white;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .course-title {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             color: var(--primary-color);
             margin-bottom: 1rem;
+            font-weight: bold;
+            line-height: 1.3;
         }
 
         .course-description {
             color: #666;
             margin-bottom: 1.5rem;
             line-height: 1.6;
+            font-size: 1.1rem;
+            flex-grow: 1;
         }
 
-        .course-features {
-            list-style: none;
-            margin-bottom: 1.5rem;
+        .course-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s ease-out;
+            background: #f8f9fa;
+            border-radius: 10px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            margin: 0;
         }
 
-        .course-features li {
+        .course-details.active {
+            max-height: 2000px;
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            margin: 1.5rem 0;
+        }
+
+        .detail-item {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-item h4 {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
             display: flex;
             align-items: center;
-            margin-bottom: 0.5rem;
-            color: #555;
+            gap: 0.5rem;
         }
 
-        .course-features li::before {
-            content: '✓';
-            color: var(--accent-color);
-            margin-right: 0.5rem;
-            font-weight: bold;
+        .detail-item h4::before {
+            content: '';
+            width: 4px;
+            height: 1.2rem;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .course-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .info-item {
+            text-align: center;
+            padding: 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .info-item .label {
+            display: block;
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-item .value {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
         }
 
         .course-price {
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             color: var(--accent-color);
             font-weight: bold;
-            margin-bottom: 1rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .course-card .cta-button {
+            width: 100%;
+            text-align: center;
+            padding: 1.2rem;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            background: var(--accent-color);
+            transition: var(--transition-smooth);
+            margin-top: auto;
+        }
+
+        .course-card .cta-button:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        @media screen and (max-width: 768px) {
+            .course-info {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .info-item {
+                padding: 0.8rem;
+            }
+            
+            .course-title {
+                font-size: 1.5rem;
+            }
+            
+            .course-description {
+                font-size: 1rem;
+            }
+            
+            .course-price {
+                font-size: 1.8rem;
+            }
+            
+            .course-card .cta-button {
+                padding: 1rem;
+                font-size: 1.1rem;
+            }
         }
 
         /* 学员反馈部分 */
@@ -1201,15 +1332,69 @@
             }
 
             .chat-widget {
-                right: 20px;
-                bottom: 20px;
+                right: 10px;
+                bottom: 10px;
             }
 
             .chat-window {
-                width: 100%;
-                max-width: 350px;
+                position: fixed;
+                top: 0;
+                left: 0;
                 right: 0;
-                bottom: 80px;
+                bottom: 0;
+                width: 100%;
+                height: 100vh;
+                max-width: none;
+                margin: 0;
+                border-radius: 0;
+                z-index: 2000;
+            }
+
+            .chat-header {
+                padding: 15px;
+                position: relative;
+            }
+
+            .close-chat {
+                position: absolute;
+                right: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 28px;
+            }
+
+            .chat-messages {
+                height: calc(100vh - 140px);
+                padding: 15px;
+            }
+
+            .chat-input {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                padding: 10px;
+                background: white;
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .chat-input textarea {
+                padding: 12px;
+                font-size: 16px;
+            }
+
+            .send-button {
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+
+            .message {
+                max-width: 85%;
+            }
+
+            .message-content {
+                padding: 12px;
+                font-size: 15px;
             }
         }
 
@@ -1269,6 +1454,104 @@
                 font-size: 16px; /* 防止iOS自动放大输入框 */
             }
         }
+
+        /* 英语优势部分样式 */
+        .advantages-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .advantages-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="40" stroke="%231e3d59" stroke-width="1" fill="none" opacity="0.05"/></svg>');
+            background-size: 100px 100px;
+        }
+
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media screen and (max-width: 1200px) {
+            .advantages-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+            .advantages-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .advantage-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition-smooth);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .advantage-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .advantage-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            transition: var(--transition-smooth);
+        }
+
+        .advantage-card:hover .advantage-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .advantage-card h3 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .advantage-card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .advantage-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: left;
+        }
+
+        .advantage-list li {
+            padding: 0.5rem 0;
+            color: #555;
+            display: flex;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+
+        .advantage-list li::before {
+            content: '✓';
+            color: var(--accent-color);
+            margin-right: 0.8rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -1278,6 +1561,7 @@
             <button class="menu-toggle">☰</button>
             <div class="nav-links">
                 <a href="#about">关于我们</a>
+                <a href="#advantages">英语优势</a>
                 <a href="#courses">精品课程</a>
                 <a href="#features">课程特色</a>
                 <a href="#team">师资团队</a>
@@ -1337,6 +1621,74 @@
         </div>
     </section>
 
+    <section id="advantages" class="advantages-section" data-aos="fade-up">
+        <div class="section-container">
+            <h2 class="section-title">英语优势</h2>
+            <div class="advantages-grid">
+                <div class="advantage-card" data-aos="fade-up">
+                    <div class="advantage-icon">🎓</div>
+                    <h3>留学深造</h3>
+                    <p>打开世界名校大门，获取优质教育资源，实现留学梦想</p>
+                    <ul class="advantage-list">
+                        <li>世界名校申请</li>
+                        <li>专业课程学习</li>
+                        <li>国际交流机会</li>
+                    </ul>
+                </div>
+                <div class="advantage-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="advantage-icon">💼</div>
+                    <h3>职业发展</h3>
+                    <p>提升职场竞争力，获取更好的工作机会和薪资待遇</p>
+                    <ul class="advantage-list">
+                        <li>外企工作机会</li>
+                        <li>职业晋升优势</li>
+                        <li>国际项目合作</li>
+                    </ul>
+                </div>
+                <div class="advantage-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="advantage-icon">🌏</div>
+                    <h3>国际视野</h3>
+                    <p>开拓国际化视野，接轨全球发展趋势</p>
+                    <ul class="advantage-list">
+                        <li>国际资讯获取</li>
+                        <li>跨文化交流</li>
+                        <li>全球社交网络</li>
+                    </ul>
+                </div>
+                <div class="advantage-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="advantage-icon">📱</div>
+                    <h3>生活便利</h3>
+                    <p>享受更丰富的生活体验，提升生活品质</p>
+                    <ul class="advantage-list">
+                        <li>国际旅行便利</li>
+                        <li>英文媒体娱乐</li>
+                        <li>国际商务交往</li>
+                    </ul>
+                </div>
+                <div class="advantage-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="advantage-icon">🎯</div>
+                    <h3>考试提升</h3>
+                    <p>系统化的备考策略，快速提升考试成绩</p>
+                    <ul class="advantage-list">
+                        <li>专业考试技巧</li>
+                        <li>高分备考方案</li>
+                        <li>模拟考试训练</li>
+                    </ul>
+                </div>
+                <div class="advantage-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="advantage-icon">🌐</div>
+                    <h3>在线优势</h3>
+                    <p>随时随地，灵活学习，一对一辅导</p>
+                    <ul class="advantage-list">
+                        <li>线上实时互动</li>
+                        <li>录播课程回放</li>
+                        <li>智能学习系统</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="team-section" id="team">
         <div class="section-container">
             <h2 class="section-title">师资团队</h2>
@@ -1344,7 +1696,7 @@
                 <!-- 团队成员 1 -->
                 <div class="team-member">
                     <div class="team-member-avatar">
-                        <img src="teacher1.jpg" alt="教师1" onerror="this.parentElement.innerHTML='<div class=\'placeholder\'>T</div>'">
+                        <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="张教授">
                     </div>
                     <h3>张教授</h3>
                     <div class="title">雅思口语专家</div>
@@ -1354,7 +1706,7 @@
                 <!-- 团队成员 2 -->
                 <div class="team-member">
                     <div class="team-member-avatar">
-                        <img src="teacher2.jpg" alt="教师2" onerror="this.parentElement.innerHTML='<div class=\'placeholder\'>L</div>'">
+                        <img src="https://images.unsplash.com/photo-1580894732444-8ecded7900cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="李博士">
                     </div>
                     <h3>李博士</h3>
                     <div class="title">雅思写作导师</div>
@@ -1364,7 +1716,7 @@
                 <!-- 团队成员 3 -->
                 <div class="team-member">
                     <div class="team-member-avatar">
-                        <img src="teacher3.jpg" alt="教师3" onerror="this.parentElement.innerHTML='<div class=\'placeholder\'>W</div>'">
+                        <img src="https://images.unsplash.com/photo-1544717305-2782549b5136?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="王老师">
                     </div>
                     <h3>王老师</h3>
                     <div class="title">雅思阅读听力专家</div>
@@ -1405,6 +1757,24 @@
     <section class="courses-section" id="courses">
         <div class="section-container">
             <h2 class="section-title">精品课程</h2>
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <button class="toggle-all-details" style="
+                    background: var(--primary-color);
+                    color: white;
+                    border: none;
+                    padding: 1rem 2rem;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    font-size: 1.1rem;
+                    transition: all 0.3s ease;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.5rem;
+                    margin: 0 auto;">
+                    <span>展开所有课程详情</span>
+                    <span class="icon">▼</span>
+                </button>
+            </div>
             <div class="course-grid">
                 <div class="course-card">
                     <div class="course-image">
@@ -1412,13 +1782,49 @@
                     </div>
                     <div class="course-content">
                         <h3 class="course-title">雅思基础课程</h3>
-                        <p class="course-description">适合零基础学员，全面掌握雅思考试基本技能和解题思路。</p>
-                        <ul class="course-features">
-                            <li>系统语法讲解</li>
-                            <li>基础词汇积累</li>
-                            <li>考试技巧入门</li>
-                            <li>真题实战演练</li>
-                        </ul>
+                        <p class="course-description">为零基础学员量身打造的入门课程，通过系统化的学习，帮助您打下扎实的语言基础。</p>
+                        <div class="course-details">
+                            <div class="detail-item">
+                                <h4>课程特点</h4>
+                                <ul class="course-features">
+                                    <li>小班教学（6-8人）</li>
+                                    <li>一对一辅导</li>
+                                    <li>定期模拟考试</li>
+                                    <li>免费重修保障</li>
+                                </ul>
+                            </div>
+                            <div class="detail-item">
+                                <h4>课程内容</h4>
+                                <ul class="course-features">
+                                    <li>核心词汇积累（3000+）</li>
+                                    <li>基础语法强化</li>
+                                    <li>听说读写基础训练</li>
+                                    <li>考试技巧入门</li>
+                                </ul>
+                            </div>
+                            <div class="detail-item">
+                                <h4>适合人群</h4>
+                                <ul class="course-features">
+                                    <li>英语基础薄弱者</li>
+                                    <li>首次备考雅思</li>
+                                    <li>目标4.5-5.5分</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="course-info">
+                            <div class="info-item">
+                                <span class="label">课程时长</span>
+                                <span class="value">3个月</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">上课时间</span>
+                                <span class="value">周末班/晚间班</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">开班时间</span>
+                                <span class="value">每月多个班次</span>
+                            </div>
+                        </div>
                         <div class="course-price">¥6,800</div>
                         <a href="#contact" class="cta-button">立即报名</a>
                     </div>
@@ -1429,13 +1835,49 @@
                     </div>
                     <div class="course-content">
                         <h3 class="course-title">雅思进阶课程</h3>
-                        <p class="course-description">针对5.5分以上学员，提升听说读写各项能力。</p>
-                        <ul class="course-features">
-                            <li>高分写作技巧</li>
-                            <li>口语高分策略</li>
-                            <li>听力精准提升</li>
-                            <li>阅读速度训练</li>
-                        </ul>
+                        <p class="course-description">针对已有雅思基础的学员，全面提升听说读写能力，助您突破瓶颈。</p>
+                        <div class="course-details">
+                            <div class="detail-item">
+                                <h4>课程特点</h4>
+                                <ul class="course-features">
+                                    <li>个性化学习方案</li>
+                                    <li>真题详细讲解</li>
+                                    <li>每周测评反馈</li>
+                                    <li>一对一答疑</li>
+                                </ul>
+                            </div>
+                            <div class="detail-item">
+                                <h4>课程内容</h4>
+                                <ul class="course-features">
+                                    <li>高频词汇扩充（5000+）</li>
+                                    <li>学术写作进阶</li>
+                                    <li>口语表达提升</li>
+                                    <li>听力技巧强化</li>
+                                </ul>
+                            </div>
+                            <div class="detail-item">
+                                <h4>适合人群</h4>
+                                <ul class="course-features">
+                                    <li>已有雅思基础</li>
+                                    <li>需提高现有分数</li>
+                                    <li>目标6.0-6.5分</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="course-info">
+                            <div class="info-item">
+                                <span class="label">课程时长</span>
+                                <span class="value">2个月</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">上课时间</span>
+                                <span class="value">灵活排课</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">开班时间</span>
+                                <span class="value">滚动开班</span>
+                            </div>
+                        </div>
                         <div class="course-price">¥8,800</div>
                         <a href="#contact" class="cta-button">立即报名</a>
                     </div>
@@ -1446,13 +1888,49 @@
                     </div>
                     <div class="course-content">
                         <h3 class="course-title">雅思冲刺课程</h3>
-                        <p class="course-description">面向6.5分以上学员，冲刺7分以上高分。</p>
-                        <ul class="course-features">
-                            <li>高分备考计划</li>
-                            <li>核心技巧掌握</li>
-                            <li>考官思维解析</li>
-                            <li>模考点评指导</li>
-                        </ul>
+                        <p class="course-description">为目标高分学员定制的精品课程，助您突破7分，实现名校梦想。</p>
+                        <div class="course-details">
+                            <div class="detail-item">
+                                <h4>课程特点</h4>
+                                <ul class="course-features">
+                                    <li>名师一对一指导</li>
+                                    <li>考官打分反馈</li>
+                                    <li>高分策略分享</li>
+                                    <li>模考全程跟踪</li>
+                                </ul>
+                            </div>
+                            <div class="detail-item">
+                                <h4>课程内容</h4>
+                                <ul class="course-features">
+                                    <li>学术词汇精讲（8000+）</li>
+                                    <li>高分写作模板</li>
+                                    <li>口语高分技巧</li>
+                                    <li>听力精准预测</li>
+                                </ul>
+                            </div>
+                            <div class="detail-item">
+                                <h4>适合人群</h4>
+                                <ul class="course-features">
+                                    <li>已达6.5分以上</li>
+                                    <li>目标名校申请</li>
+                                    <li>冲刺7分以上</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="course-info">
+                            <div class="info-item">
+                                <span class="label">课程时长</span>
+                                <span class="value">1个月</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">上课时间</span>
+                                <span class="value">一对一约课</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">开班时间</span>
+                                <span class="value">随时开课</span>
+                            </div>
+                        </div>
                         <div class="course-price">¥12,800</div>
                         <a href="#contact" class="cta-button">立即报名</a>
                     </div>
@@ -1796,6 +2274,31 @@
             textarea.addEventListener('input', function() {
                 this.style.height = 'auto';
                 this.style.height = Math.min(this.scrollHeight, 100) + 'px';
+            });
+        });
+    </script>
+
+    <script>
+        // 课程详情折叠功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleAllButton = document.querySelector('.toggle-all-details');
+            const courseDetails = document.querySelectorAll('.course-details');
+            let isAllExpanded = false;
+            
+            // 统一控制所有课程详情的展开/收起
+            toggleAllButton.addEventListener('click', function() {
+                isAllExpanded = !isAllExpanded;
+                
+                // 更新总按钮的文字和状态
+                this.querySelector('span:first-child').textContent = 
+                    isAllExpanded ? '收起所有课程详情' : '展开所有课程详情';
+                this.querySelector('.icon').style.transform = 
+                    isAllExpanded ? 'rotate(180deg)' : 'rotate(0)';
+                
+                // 更新所有课程详情的状态
+                courseDetails.forEach(details => {
+                    details.classList.toggle('active', isAllExpanded);
+                });
             });
         });
     </script>
