@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>山西环球领航教育科技有限公司 - 专业雅思培训</title>
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1e3d59;
+            --secondary-color: #f5f0e1;
+            --accent-color: #ff6e40;
+            --text-light: #ffffff;
+            --text-dark: #333333;
+            --gradient-bg: linear-gradient(135deg, #1e3d59, #17263b);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(30, 61, 89, 0.95);
+            padding: 1rem 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            background: rgba(30, 61, 89, 0.98);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            color: var(--text-light);
+            font-size: 1.8rem;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* 英雄区域样式 */
+        .hero {
+            height: 100vh;
+            background: var(--gradient-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover;
+            opacity: 0.1;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            color: var(--text-light);
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.5s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        /* 师资团队部分 */
+        .team-section {
+            padding: 6rem 2rem;
+            background: var(--bg-primary);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .team-member {
+            text-align: center;
+            background: linear-gradient(to bottom, #232323, #1a1a1a);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+        }
+
+        .team-member-avatar {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .team-member-avatar img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-color);
+        }
+
+        .team-member-avatar::after {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 50%;
+            border: 2px solid var(--accent-color);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .team-member:hover .team-member-avatar::after {
+            opacity: 1;
+        }
+
+        .team-member h3 {
+            color: var(--text-primary);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-member p {
+            color: var(--text-primary);
+            opacity: 0.8;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .team-member .title {
+            color: var(--accent-color);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .team-member-avatar .placeholder {
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        /* 关于我们部分 */
+        .about-section {
+            padding: 6rem 2rem;
+            background: var(--secondary-color);
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 3rem;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .about-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .about-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        <section class="team-section">
+        <div class="section-container">
+            <h2 class="section-title">师资团队</h2>
+            <div class="team-grid">
+                <!-- 团队成员 1 -->
+                <div class="team-member">
+                    <div class="team-member-avatar">
+                        <img src="teacher1.jpg" alt="教师1" onerror="this.parentElement.innerHTML='<div class=\'placeholder\'>T</div>'">
+                    </div>
+                    <h3>张教授</h3>
+                    <div class="title">雅思口语专家</div>
+                    <p>拥有10年雅思教学经验，曾在英国留学工作多年</p>
+                </div>
+    
+                <!-- 团队成员 2 -->
+                <div class="team-member">
+                    <div class="team-member-avatar">
+                        <img src="teacher2.jpg" alt="教师2" onerror="this.parentElement.innerHTML='<div class=\'placeholder\'>L</div>'">
+                    </div>
+                    <h3>李博士</h3>
+                    <div class="title">雅思写作导师</div>
+                    <p>毕业于剑桥大学，专注雅思写作教学</p>
+                </div>
+    
+                <!-- 团队成员 3 -->
+                <div class="team-member">
+                    <div class="team-member-avatar">
+                        <img src="teacher3.jpg" alt="教师3" onerror="this.parentElement.innerHTML='<div class=\'placeholder\'>W</div>'">
+                    </div>
+                    <h3>王老师</h3>
+                    <div class="title">雅思阅读听力专家</div>
+                    <p>具有丰富的考试培训经验，善于总结解题技巧</p>
+                </div>
+            </div>
+        </div>
+    </section>
+        /* 课程特色部分 */
+        .features-section {
+            padding: 6rem 2rem;
+            background: var(--primary-color);
+            color: var(--text-light);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        /* 全球视野部分 */
+        .global-section {
+            padding: 6rem 2rem;
+            background: url('https://images.unsplash.com/photo-1589519160732-57fc498494f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover fixed;
+            position: relative;
+        }
+
+        .global-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(30, 61, 89, 0.9);
+        }
+
+        .global-content {
+            position: relative;
+            z-index: 1;
+            color: var(--text-light);
+            text-align: center;
+        }
+
+        .global-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .global-item {
+            padding: 2rem;
+            border: 2px solid var(--accent-color);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .global-item:hover {
+            background: rgba(255, 110, 64, 0.1);
+            transform: translateY(-10px);
+        }
+
+        /* 联系我们部分 */
+        .contact-section {
+            padding: 6rem 2rem;
+            background: var(--secondary-color);
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .submit-btn {
+            background: var(--accent-color);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background: #ff5722;
+        }
+
+        /* 页脚样式 */
+        footer {
+            background: var(--primary-color);
+            color: var(--text-light);
+            padding: 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .footer-column h4 {
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-column ul li a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        /* 动画关键帧 */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">环球领航</a>
+            <div class="nav-links">
+                <a href="#about">关于我们</a>
+                <a href="#features">课程特色</a>
+                <a href="#global">全球视野</a>
+                <a href="#contact">联系我们</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">山西环球领航教育科技有限公司</h1>
+            <p class="hero-subtitle">引领您的雅思学习之旅，开启全球教育新视野</p>
+        </div>
+    </section>
+
+    <section id="about" class="about-section" data-aos="fade-up">
+        <div class="section-container">
+            <h2 class="section-title">关于我们</h2>
+            <div class="about-grid">
+                <div class="about-card" data-aos="fade-right">
+                    <h3>专业团队</h3>
+                    <p>拥有海外留学背景的教师团队，深谙雅思考试特点，因材施教。</p>
+                </div>
+                <div class="about-card" data-aos="fade-up">
+                    <h3>创新教学</h3>
+                    <p>采用线上线下混合教学模式，个性化学习方案，确保学习效果。</p>
+                </div>
+                <div class="about-card" data-aos="fade-left">
+                    <h3>成功案例</h3>
+                    <p>累计帮助数千名学员成功提升雅思成绩，实现留学梦想。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features-section">
+        <div class="section-container">
+            <h2 class="section-title">课程特色</h2>
+            <div class="features-grid">
+                <div class="feature-card" data-aos="zoom-in">
+                    <div class="feature-icon">📚</div>
+                    <h3>精品小班</h3>
+                    <p>6-8人小班教学，保证教学质量</p>
+                </div>
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="feature-icon">🎯</div>
+                    <h3>针对性强</h3>
+                    <p>基于考试大数据，精准把握考点</p>
+                </div>
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="feature-icon">🌍</div>
+                    <h3>国际视野</h3>
+                    <p>融入全球文化元素，拓展国际视野</p>
+                </div>
+                <div class="feature-card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="feature-icon">📈</div>
+                    <h3>效果保证</h3>
+                    <p>阶段性测评，确保学习进度</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="global" class="global-section">
+        <div class="section-container">
+            <div class="global-content">
+                <h2 class="section-title">全球视野</h2>
+                <div class="global-grid">
+                    <div class="global-item" data-aos="fade-up">
+                        <h3>国际合作</h3>
+                        <p>与多家海外教育机构建立合作关系，提供留学咨询服务</p>
+                    </div>
+                    <div class="global-item" data-aos="fade-up" data-aos-delay="100">
+                        <h3>文化交流</h3>
+                        <p>定期举办国际文化交流活动，体验多元文化</p>
+                    </div>
+                    <div class="global-item" data-aos="fade-up" data-aos-delay="200">
+                        <h3>资源共享</h3>
+                        <p>共享全球优质教育资源，助力学员成长</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="section-container">
+            <h2 class="section-title">联系我们</h2>
+            <form class="contact-form" data-aos="fade-up">
+                <div class="form-group">
+                    <label for="name">姓名</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">邮箱</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">留言</label>
+                    <textarea id="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">提交</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h4>公司地址</h4>
+                <ul>
+                    <li>山西省太原市小店区</li>
+                    <li>环球领航大厦</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>联系方式</h4>
+                <ul>
+                    <li>电话：0351-XXXXXXXX</li>
+                    <li>邮箱：info@hqlh.com</li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>关注我们</h4>
+                <ul>
+                    <li><a href="#">微信公众号</a></li>
+                    <li><a href="#">官方微博</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>快速链接</h4>
+                <ul>
+                    <li><a href="#about">关于我们</a></li>
+                    <li><a href="#features">课程特色</a></li>
+                    <li><a href="#global">全球视野</a></li>
+                </ul>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true
+        });
+
+        // 导航栏滚动效果
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+    </script>
+</body>
+</html>
+
+
