@@ -19,15 +19,21 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        /* 响应式设计变量 */
+        /* 更新配色方案 */
         :root {
-            --primary-color: #1a73e8;
-            --secondary-color: #34a853;
-            --text-color: #202124;
+            --primary-color: #2769a3;
+            --secondary-color: #f5a528;
+            --accent-color-1: #34a853;  /* 清新绿 */
+            --accent-color-2: #ea4335;  /* 活力红 */
+            --accent-color-3: #4285f4;  /* 科技蓝 */
+            --text-color: #333333;
+            --text-light: #666666;
             --light-bg: #f8f9fd;
-            --gradient-bg: linear-gradient(135deg, #1a73e8, #34a853);
-            --card-bg: #ffffff;
-            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --gradient-primary: linear-gradient(135deg, rgba(39, 105, 163, 0.95), rgba(66, 133, 244, 0.85));
+            --gradient-secondary: linear-gradient(135deg, rgba(245, 165, 40, 0.85), rgba(234, 67, 53, 0.75));
+            --gradient-accent: linear-gradient(135deg, rgba(52, 168, 83, 0.9), rgba(66, 133, 244, 0.8));
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --shadow: 0 4px 20px rgba(39, 105, 163, 0.08);
             --transition: all 0.3s ease;
         }
 
@@ -72,7 +78,7 @@
             }
             
             .navbar.scrolled {
-                background: rgba(26, 115, 232, 0.95);
+                background: var(--primary-transparent);
             }
         }
 
@@ -185,42 +191,173 @@
             background-color: var(--light-bg);
         }
 
-        /* 导航栏样式 */
+        /* 导航栏样式优化 */
         .navbar {
             position: fixed;
             top: 0;
             width: 100%;
-            background: var(--gradient-bg);
-            padding: 1.5rem 0;
+            background: rgba(255, 255, 255, 0.98);
+            padding: 0.8rem 0;
             z-index: 1000;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
-            box-shadow: var(--shadow);
+            box-shadow: 0 2px 10px rgba(39, 105, 163, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
         }
 
-        .navbar.scrolled {
-            background: rgba(26, 115, 232, 0.95);
-            backdrop-filter: blur(10px);
+        .navbar-brand {
+            padding-left: 2.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
         }
 
-        .navbar a {
-            color: #FFFFFF;
+        .navbar-brand img {
+            height: 45px;
+            width: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .navbar-brand img:hover {
+            transform: scale(1.05);
+        }
+
+        .navbar-brand h1 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-right: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
             text-decoration: none;
-            font-size: 1.1rem;
-            padding: 0 2rem;
-            transition: color 0.3s ease;
+            font-size: 1.05rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 25px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            font-weight: 500;
         }
 
-        .navbar a:hover {
-            color: #3498DB;
+        .nav-links a:hover {
+            color: var(--accent-color-1);
+            background: rgba(52, 168, 83, 0.1);
+        }
+
+        .nav-links a.active {
+            background: var(--gradient-primary);
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            opacity: 0;
+        }
+
+        .nav-links a:hover::before {
+            width: 70%;
+            opacity: 1;
+        }
+
+        .nav-links a.active::before {
+            opacity: 0;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            margin-right: 1.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu-btn:hover {
+            transform: rotate(90deg);
+        }
+
+        /* 移动端导航适配 */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                width: 85%;
+                height: calc(100vh - 70px);
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(20px);
+                -webkit-backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 2rem;
+                margin: 0;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+                border-top-left-radius: 20px;
+                border-bottom-left-radius: 20px;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                width: 100%;
+                text-align: center;
+                padding: 1rem;
+                font-size: 1.1rem;
+                border-radius: 12px;
+            }
+
+            .navbar-brand {
+                padding-left: 1.5rem;
+            }
+
+            .navbar-brand h1 {
+                font-size: 1.3rem;
+            }
+
+            .navbar-brand img {
+                height: 35px;
+            }
+        }
+
+        /* 滚动效果 */
+        .navbar.scrolled {
+            padding: 0.6rem 0;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         /* 英雄区域样式 */
         .hero {
             height: 100vh;
-            background: var(--gradient-bg);
+            background: var(--gradient-primary);
             position: relative;
             overflow: hidden;
             display: flex;
@@ -274,16 +411,18 @@
         /* 产品卡片样式 */
         .product-card {
             background: var(--card-bg);
+            backdrop-filter: blur(10px);
             border-radius: 15px;
             box-shadow: var(--shadow);
             overflow: hidden;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
+            border: 1px solid rgba(39, 105, 163, 0.08);
         }
 
         .product-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 30px rgba(39, 105, 163, 0.1);
         }
 
         .product-image {
@@ -314,7 +453,7 @@
 
         .product-price {
             font-size: 1.2rem;
-            color: #E74C3C;
+            color: var(--accent-color-2);
             font-weight: bold;
             margin: 0.5rem 0;
         }
@@ -328,7 +467,7 @@
             position: absolute;
             top: 1rem;
             right: 1rem;
-            background: #E74C3C;
+            background: var(--accent-color-1);
             color: #FFFFFF;
             padding: 0.5rem 1rem;
             border-radius: 5px;
@@ -367,14 +506,13 @@
 
         .service-card:hover {
             transform: translateY(-5px);
-            background: #3498DB;
-            color: #FFFFFF;
+            background: var(--gradient-accent);
         }
 
         .service-card i {
             font-size: 2.5rem;
             margin-bottom: 1rem;
-            color: #3498DB;
+            color: var(--accent-color-1);
         }
 
         .service-card:hover i {
@@ -390,7 +528,7 @@
         .contact-form {
             max-width: 600px;
             margin: 0 auto;
-            background: #FFFFFF;
+            background: var(--card-bg);
             padding: 2rem;
             border-radius: 15px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
@@ -401,13 +539,13 @@
             width: 100%;
             padding: 1rem;
             margin: 0.5rem 0;
-            border: 1px solid #E5E7E9;
+            border: 1px solid rgba(39, 105, 163, 0.1);
             border-radius: 5px;
             font-size: 1rem;
         }
 
         .contact-form button {
-            background: var(--gradient-bg);
+            background: var(--primary-color);
             color: white;
             padding: 12px 24px;
             border: none;
@@ -419,12 +557,16 @@
         }
 
         .contact-form button:hover {
-            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+            background: var(--secondary-color);
+            box-shadow: 0 6px 20px rgba(245, 165, 40, 0.15);
         }
 
         /* 页脚样式 */
         .footer {
-            background: var(--gradient-bg);
+            background: linear-gradient(135deg,
+                var(--primary-color),
+                var(--accent-color-3)
+            );
             color: white;
             padding: 4rem 2rem;
         }
@@ -438,7 +580,7 @@
         }
 
         .footer-column h3 {
-            color: #3498DB;
+            color: rgba(255, 255, 255, 0.95);
             margin-bottom: 1.5rem;
         }
 
@@ -465,7 +607,7 @@
         }
 
         #chat-button {
-            background: var(--gradient-bg);
+            background: var(--gradient-accent);
             color: white;
             padding: 1rem 1.5rem;
             border: none;
@@ -476,13 +618,13 @@
             align-items: center;
             gap: 0.8rem;
             font-size: 1.1rem;
-            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+            box-shadow: 0 4px 12px rgba(39, 105, 163, 0.1);
             position: relative;
         }
 
         #chat-button:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 16px rgba(26, 115, 232, 0.4);
+            box-shadow: 0 6px 16px rgba(39, 105, 163, 0.15);
         }
 
         .chat-window {
@@ -491,18 +633,19 @@
             bottom: 5rem;
             width: 350px;
             height: 500px;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
             border-radius: 20px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 8px 30px rgba(39, 105, 163, 0.1);
             display: none;
             flex-direction: column;
             overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(39, 105, 163, 0.1);
         }
 
         .chat-header {
-            background: var(--gradient-bg);
+            background: var(--gradient-primary);
+            background: var(--primary-color);
             color: white;
             padding: 1rem;
             display: flex;
@@ -551,14 +694,14 @@
         }
 
         .message.user {
-            background: var(--gradient-bg);
+            background: var(--gradient-primary);
             color: white;
             align-self: flex-end;
             border-bottom-right-radius: 5px;
         }
 
         .message.assistant {
-            background: #f0f2f5;
+            background: rgba(52, 168, 83, 0.1);
             color: var(--text-color);
             align-self: flex-start;
             border-bottom-left-radius: 5px;
@@ -599,7 +742,7 @@
         }
 
         #send-button {
-            background: var(--gradient-bg);
+            background: var(--primary-color);
             color: white;
             border: none;
             width: 40px;
@@ -802,6 +945,7 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
+            border: 1px solid rgba(39, 105, 163, 0.1);
         }
 
         .testimonial-avatar {
@@ -824,7 +968,7 @@
         }
 
         .rating {
-            color: #F1C40F;
+            color: var(--secondary-color);
         }
 
         /* 合作品牌样式 */
@@ -845,6 +989,7 @@
             justify-content: center;
             align-items: center;
             transition: transform 0.3s ease;
+            border: 1px solid rgba(39, 105, 163, 0.1);
         }
 
         .partner-logo:hover {
@@ -887,26 +1032,34 @@
 
         /* 区块背景交替 */
         .section:nth-child(even) {
-            background-color: var(--light-bg);
+            background: linear-gradient(135deg, 
+                rgba(245, 165, 40, 0.05),
+                rgba(234, 67, 53, 0.05)
+            );
         }
 
         .section:nth-child(odd) {
-            background-color: var(--card-bg);
+            background: linear-gradient(135deg, 
+                rgba(52, 168, 83, 0.05),
+                rgba(66, 133, 244, 0.05)
+            );
         }
 
         /* 按钮样式统一 */
         button, .read-more {
-            background: var(--gradient-bg);
+            background: var(--gradient-primary);
             color: white;
             border: none;
             padding: 12px 24px;
             border-radius: 50px;
             cursor: pointer;
             transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(39, 105, 163, 0.1);
         }
 
         button:hover, .read-more:hover {
-            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+            background: var(--gradient-secondary);
+            box-shadow: 0 6px 20px rgba(245, 165, 40, 0.15);
         }
 
         /* 轮播banner样式 */
@@ -982,6 +1135,101 @@
         .story-image:hover img {
             transform: scale(1.05);
         }
+
+        /* 产品卡片样式优化 */
+        .product-card:nth-child(3n+1) .promotion-tag {
+            background: var(--accent-color-1);
+        }
+
+        .product-card:nth-child(3n+2) .promotion-tag {
+            background: var(--accent-color-2);
+        }
+
+        .product-card:nth-child(3n+3) .promotion-tag {
+            background: var(--accent-color-3);
+        }
+
+        .product-price {
+            color: var(--accent-color-2);
+        }
+
+        /* 服务卡片样式优化 */
+        .service-card:hover {
+            background: var(--gradient-accent);
+        }
+
+        .service-card:nth-child(3n+1) i {
+            color: var(--accent-color-1);
+        }
+
+        .service-card:nth-child(3n+2) i {
+            color: var(--accent-color-2);
+        }
+
+        .service-card:nth-child(3n+3) i {
+            color: var(--accent-color-3);
+        }
+
+        /* 里程碑样式优化 */
+        .milestone:nth-child(4n+1) i {
+            color: var(--accent-color-1);
+        }
+
+        .milestone:nth-child(4n+2) i {
+            color: var(--accent-color-2);
+        }
+
+        .milestone:nth-child(4n+3) i {
+            color: var(--accent-color-3);
+        }
+
+        .milestone:nth-child(4n+4) i {
+            color: var(--secondary-color);
+        }
+
+        /* 新闻卡片样式优化 */
+        .news-card:nth-child(3n+1) .news-date {
+            background: var(--accent-color-1);
+        }
+
+        .news-card:nth-child(3n+2) .news-date {
+            background: var(--accent-color-2);
+        }
+
+        .news-card:nth-child(3n+3) .news-date {
+            background: var(--accent-color-3);
+        }
+
+        /* 评价卡片样式优化 */
+        .rating {
+            background: linear-gradient(to right, var(--accent-color-2), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* 动画效果优化 */
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .banner-content h1 {
+            background: linear-gradient(45deg,
+                #fff,
+                rgba(255, 255, 255, 0.8),
+                #fff
+            );
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            animation: gradient 3s ease infinite;
+        }
     </style>
 </head>
 <body>
@@ -992,14 +1240,24 @@
 
     <!-- 导航栏 -->
     <nav class="navbar">
-        <a href="#home">首页</a>
-        <a href="#about">关于我们</a>
-        <a href="#products">产品展示</a>
-        <a href="#brand-story">品牌故事</a>
-        <a href="#news">新闻动态</a>
-        <a href="#testimonials">客户评价</a>
-        <a href="#partners">合作品牌</a>
-        <a href="#contact">联系我们</a>
+        <div class="navbar-brand">
+            <img src="https://via.placeholder.com/40x40?text=Logo" alt="罗密森logo">
+            <h1>罗密森商贸</h1>
+        </div>
+        <button class="mobile-menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="nav-links">
+            <a href="#home" class="active">首页</a>
+            <a href="#products">产品展示</a>
+            <a href="#brand-story">品牌故事</a>
+            <a href="#news">新闻动态</a>
+            <a href="#testimonials">客户评价</a>
+            <a href="#partners">合作品牌</a>
+            <a href="#about">关于我们</a>
+            <a href="#services">服务特色</a>
+            <a href="#contact">联系我们</a>
+        </div>
     </nav>
 
     <!-- 英雄区域改为轮播banner -->
@@ -1529,37 +1787,74 @@
                 }, 300);
             });
 
-            // 发送消息
-            function sendMessage() {
+            // 修改getAIResponse函数为异步函数,调用阿里云API
+            async function getAIResponse(message) {
+                const API_KEY = 'sk-8c64af5b210240cfa58be0de2c4b6345';
+                const BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1';
+
+                try {
+                    const response = await fetch(`${BASE_URL}/chat/completions`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${API_KEY}`
+                        },
+                        body: JSON.stringify({
+                            model: 'qwen-max',
+                            messages: [
+                                {
+                                    role: 'system',
+                                    content: '你是罗密森商贸有限公司的智能客服助手,请用专业、友好的语气回答用户问题。'
+                                },
+                                {
+                                    role: 'user',
+                                    content: message
+                                }
+                            ],
+                            max_tokens: 1000,
+                            temperature: 0.7
+                        })
+                    });
+
+                    const data = await response.json();
+                    return data.choices[0].message.content;
+                } catch (error) {
+                    console.error('调用AI接口出错:', error);
+                    return '抱歉,系统暂时出现问题,请稍后再试或联系人工客服: 0351-XXXXXXXX';
+                }
+            }
+
+            // 修改sendMessage函数为异步函数
+            async function sendMessage() {
                 const message = chatInput.value.trim();
                 if (!message) return;
 
                 appendMessage('user', message);
                 chatInput.value = '';
                 
-                // 显示输入中动画
                 const typingIndicator = document.createElement('div');
                 typingIndicator.className = 'typing-indicator';
                 typingIndicator.innerHTML = '<span></span><span></span><span></span>';
                 chatMessages.appendChild(typingIndicator);
                 
-                // 自动滚动到底部
                 scrollToBottom();
 
-                // 模拟AI响应
-                setTimeout(() => {
+                try {
+                    const response = await getAIResponse(message);
                     typingIndicator.remove();
-                    const response = getAIResponse(message);
                     appendMessage('assistant', response);
                     scrollToBottom();
                     
-                    // 保存聊天记录
                     chatHistory.push(
                         { role: 'user', content: message },
                         { role: 'assistant', content: response }
                     );
                     localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
-                }, 1000);
+                } catch (error) {
+                    typingIndicator.remove();
+                    appendMessage('assistant', '抱歉,系统暂时出现问题,请稍后再试。');
+                    scrollToBottom();
+                }
             }
 
             sendButton.addEventListener('click', sendMessage);
@@ -1585,24 +1880,61 @@
                     });
                 });
             }
+        });
 
-            // 模拟AI响应（实际项目中应替换为真实的AI接口）
-            function getAIResponse(message) {
-                const responses = {
-                    '价格': '我们的产品价格根据型号和配置有所不同，您可以查看产品展示页面的详细价格信息，或告诉我您感兴趣的具体产品，我可以为您提供更详细的价格说明。',
-                    '售后': '我们提供7×24小时售后服务，保修期内的产品享受免费维修服务。如果您遇到任何问题，可以拨打售后热线：0351-XXXXXXXX。',
-                    '配送': '我们承诺24小时内送达太原市区，其他地区一般2-3天内送达。如需了解具体配送时间，请提供您的详细地址。',
-                    '产品': '我们提供各类家用电器和厨卫产品，包括冰箱、洗衣机、空调、油烟机等。您可以在产品展示页面查看详细信息。',
-                    '默认': '感谢您的咨询。请问您想了解哪些具体信息？我可以为您提供产品介绍、价格查询、售后服务等相关帮助。'
-                };
+        // 导航栏功能优化
+        document.addEventListener('DOMContentLoaded', () => {
+            const navbar = document.querySelector('.navbar');
+            const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+            const navLinks = document.querySelector('.nav-links');
+            const links = document.querySelectorAll('.nav-links a');
 
-                for (const key in responses) {
-                    if (message.includes(key)) {
-                        return responses[key];
+            // 移动端菜单切换
+            mobileMenuBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                mobileMenuBtn.innerHTML = navLinks.classList.contains('active') ? 
+                    '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            });
+
+            // 点击导航链接
+            links.forEach(link => {
+                link.addEventListener('click', () => {
+                    // 移除所有active类
+                    links.forEach(l => l.classList.remove('active'));
+                    // 添加active类到当前点击的链接
+                    link.classList.add('active');
+                    // 移动端自动关闭菜单
+                    if (window.innerWidth <= 768) {
+                        navLinks.classList.remove('active');
+                        mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
                     }
+                });
+            });
+
+            // 滚动监听
+            const sections = document.querySelectorAll('section[id]');
+            window.addEventListener('scroll', () => {
+                // 导航栏背景效果
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
                 }
-                return responses['默认'];
-            }
+
+                // 自动高亮当前部分
+                const scrollY = window.pageYOffset;
+                sections.forEach(section => {
+                    const sectionHeight = section.offsetHeight;
+                    const sectionTop = section.offsetTop - 100;
+                    const sectionId = section.getAttribute('id');
+                    const correspondingLink = document.querySelector(`.nav-links a[href="#${sectionId}"]`);
+                    
+                    if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                        links.forEach(l => l.classList.remove('active'));
+                        correspondingLink?.classList.add('active');
+                    }
+                });
+            });
         });
     </script>
 </body>
