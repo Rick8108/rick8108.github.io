@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="山西罗密森商贸有限公司 - 专业的家用电器和厨卫用品供应商">
+    <meta name="keywords" content="罗密森,家用电器,厨卫用品,太原家电">
+    <meta name="theme-color" content="#2C3E50">
+    
+    <!-- 预加载关键资源 -->
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" as="style">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" as="style">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js" as="script">
+    
+    <!-- 添加网站图标 -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <title>山西罗密森商贸有限公司</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* 响应式设计变量 */
+        :root {
+            --primary-color: #1a73e8;
+            --secondary-color: #34a853;
+            --text-color: #202124;
+            --light-bg: #f8f9fd;
+            --gradient-bg: linear-gradient(135deg, #1a73e8, #34a853);
+            --card-bg: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem 0;
+            }
+            
+            .navbar a {
+                padding: 0 1rem;
+                font-size: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.2rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+            
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        /* 暗色模式支持 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: var(--light-bg);
+            }
+            
+            .product-card, .about-card, .service-card, .testimonial-card, .partner-logo {
+                background: var(--card-bg);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .navbar.scrolled {
+                background: rgba(26, 115, 232, 0.95);
+            }
+        }
+
+        /* 加载动画样式修改 */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loading.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--secondary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 平滑滚动 */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 图片懒加载占位符 */
+        .product-image img {
+            transition: opacity 0.3s ease;
+        }
+
+        .product-image img[loading] {
+            opacity: 0;
+        }
+
+        /* 改进的按钮样式 */
+        button {
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
+        }
+
+        button:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* 改进的AI客服样式 */
+        .chat-window {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .typing-indicator {
+            display: flex;
+            padding: 10px;
+            gap: 4px;
+        }
+
+        .typing-indicator span {
+            width: 8px;
+            height: 8px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            animation: typing 1s infinite ease-in-out;
+        }
+
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: var(--text-color);
+            background-color: var(--light-bg);
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--gradient-bg);
+            padding: 1.5rem 0;
+            z-index: 1000;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--shadow);
+        }
+
+        .navbar.scrolled {
+            background: rgba(26, 115, 232, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 0 2rem;
+            transition: color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            color: #3498DB;
+        }
+
+        /* 英雄区域样式 */
+        .hero {
+            height: 100vh;
+            background: var(--gradient-bg);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #FFFFFF;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('pattern.png') repeat;
+            opacity: 0.1;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin: 0;
+        }
+
+        .hero p {
+            font-size: 1.8rem;
+            margin: 1rem 0;
+        }
+
+        /* 内容区域通用样式 */
+        .section {
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .section h2 {
+            margin-bottom: 3rem;
+            color: #2C3E50;
+            font-size: 2.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 产品卡片样式 */
+        .product-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            height: 200px;
+            background: #F8F9FA;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            color: #2C3E50;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.5rem;
+            margin: 0 0 1rem;
+            color: #2C3E50;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            color: #E74C3C;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .product-rating {
+            color: #F1C40F;
+            margin: 0.5rem 0;
+        }
+
+        .promotion-tag {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #E74C3C;
+            color: #FFFFFF;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        /* 关于我们卡片样式 */
+        .about-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .about-card i {
+            font-size: 3rem;
+            color: #3498DB;
+            margin-bottom: 1rem;
+        }
+
+        /* 服务特色样式 */
+        .service-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            background: #3498DB;
+            color: #FFFFFF;
+        }
+
+        .service-card i {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #3498DB;
+        }
+
+        .service-card:hover i {
+            color: #FFFFFF;
+        }
+
+        /* 联系表单样式 */
+        .contact {
+            background: #F8F9FA;
+            padding: 5rem 2rem;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #FFFFFF;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border: 1px solid #E5E7E9;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .contact-form button {
+            background: var(--gradient-bg);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .contact-form button:hover {
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+        }
+
+        /* 页脚样式 */
+        .footer {
+            background: var(--gradient-bg);
+            color: white;
+            padding: 4rem 2rem;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-column h3 {
+            color: #3498DB;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-column p {
+            margin: 0.5rem 0;
+        }
+
+        .footer-column a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        /* AI客服样式优化 */
+        .ai-customer-service {
+            position: fixed;
+            right: 2rem;
+            bottom: 2rem;
+            z-index: 1000;
+        }
+
+        #chat-button {
+            background: var(--gradient-bg);
+            color: white;
+            padding: 1rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+            position: relative;
+        }
+
+        #chat-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(26, 115, 232, 0.4);
+        }
+
+        .chat-window {
+            position: fixed;
+            right: 2rem;
+            bottom: 5rem;
+            width: 350px;
+            height: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .chat-header {
+            background: var(--gradient-bg);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-header h3 {
+            margin: 0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 0.5rem;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .chat-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 0.8rem 1rem;
+            border-radius: 15px;
+            position: relative;
+            animation: messageSlide 0.3s ease;
+        }
+
+        .message.user {
+            background: var(--gradient-bg);
+            color: white;
+            align-self: flex-end;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.assistant {
+            background: #f0f2f5;
+            color: var(--text-color);
+            align-self: flex-start;
+            border-bottom-left-radius: 5px;
+        }
+
+        @keyframes messageSlide {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-input {
+            padding: 1rem;
+            background: white;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 0.5rem;
+            background: #f0f2f5;
+            padding: 0.5rem;
+            border-radius: 25px;
+        }
+
+        #chat-input {
+            flex: 1;
+            border: none;
+            background: none;
+            padding: 0.5rem;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        #send-button {
+            background: var(--gradient-bg);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        #send-button:hover {
+            transform: scale(1.1);
+        }
+
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 0.5rem 1rem;
+            background: #f0f2f5;
+            border-radius: 15px;
+            width: fit-content;
+            margin: 0.5rem 0;
+        }
+
+        .typing-indicator span {
+            width: 6px;
+            height: 6px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            animation: typing 1s infinite ease-in-out;
+        }
+
+        @keyframes typing {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .chat-window {
+                width: 100%;
+                height: 100%;
+                right: 0;
+                bottom: 0;
+                border-radius: 0;
+            }
+            
+            #chat-button {
+                padding: 0.8rem 1.2rem;
+                font-size: 1rem;
+            }
+        }
+
+        /* 品牌故事样式 */
+        .brand-story {
+            background: var(--light-bg);
+        }
+
+        .story-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .story-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .milestone-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .milestone {
+            text-align: center;
+            padding: 1.5rem;
+            background: #FFFFFF;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .milestone:hover {
+            transform: translateY(-5px);
+        }
+
+        .milestone i {
+            font-size: 2rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        /* 新闻动态样式 */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .news-card {
+            background: #FFFFFF;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .news-image {
+            position: relative;
+            height: 200px;
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .news-date {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--secondary-color);
+            color: #FFFFFF;
+            padding: 0.5rem;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .news-date .day {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: block;
+        }
+
+        .news-content {
+            padding: 1.5rem;
+        }
+
+        .read-more {
+            color: var(--secondary-color);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            transition: gap 0.3s ease;
+        }
+
+        .read-more:hover {
+            gap: 1rem;
+        }
+
+        /* 客户评价样式 */
+        .testimonials {
+            background: var(--light-bg);
+        }
+
+        .testimonial-slider {
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .testimonial-track {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: #FFFFFF;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .testimonial-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .testimonial-content p {
+            font-style: italic;
+            margin: 1rem 0;
+        }
+
+        .rating {
+            color: #F1C40F;
+        }
+
+        /* 合作品牌样式 */
+        .partner-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .partner-logo {
+            background: #FFFFFF;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .partner-logo:hover {
+            transform: scale(1.05);
+        }
+
+        .partner-logo img {
+            max-width: 100%;
+            height: auto;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+
+        .partner-logo:hover img {
+            filter: grayscale(0%);
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .story-container {
+                grid-template-columns: 1fr;
+            }
+
+            .milestone-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonial-track {
+                grid-template-columns: 1fr;
+            }
+
+            .partner-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* 区块背景交替 */
+        .section:nth-child(even) {
+            background-color: var(--light-bg);
+        }
+
+        .section:nth-child(odd) {
+            background-color: var(--card-bg);
+        }
+
+        /* 按钮样式统一 */
+        button, .read-more {
+            background: var(--gradient-bg);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        button:hover, .read-more:hover {
+            box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
+        }
+
+        /* 轮播banner样式 */
+        .banner-slider {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .banner-track {
+            display: flex;
+            transition: transform 0.5s ease;
+            height: 100%;
+        }
+
+        .banner-slide {
+            flex: 0 0 100%;
+            position: relative;
+        }
+
+        .banner-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .banner-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: #fff;
+            z-index: 2;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .banner-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .banner-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .banner-dot.active {
+            background: #fff;
+        }
+
+        /* 更新图片相关样式 */
+        .product-image img,
+        .story-image img,
+        .news-image img,
+        .testimonial-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-image:hover img,
+        .story-image:hover img {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- 加载动画 -->
+    <div class="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <a href="#home">首页</a>
+        <a href="#about">关于我们</a>
+        <a href="#products">产品展示</a>
+        <a href="#brand-story">品牌故事</a>
+        <a href="#news">新闻动态</a>
+        <a href="#testimonials">客户评价</a>
+        <a href="#partners">合作品牌</a>
+        <a href="#contact">联系我们</a>
+    </nav>
+
+    <!-- 英雄区域改为轮播banner -->
+    <section class="hero" id="home" data-aos="fade-in">
+        <div class="banner-slider">
+            <div class="banner-track">
+                <div class="banner-slide">
+                    <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?w=1600&h=900&fit=crop" alt="现代化厨房">
+                    <div class="banner-content">
+                        <h1>山西罗密森商贸有限公司</h1>
+                        <p>品质生活，从这里开始</p>
+                    </div>
+                </div>
+                <div class="banner-slide">
+                    <img src="https://images.unsplash.com/photo-1484154218962-a197022b5858?w=1600&h=900&fit=crop" alt="精致家居">
+                    <div class="banner-content">
+                        <h1>智能家电领导者</h1>
+                        <p>科技改变生活</p>
+                    </div>
+                </div>
+                <div class="banner-slide">
+                    <img src="https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=1600&h=900&fit=crop" alt="现代客厅">
+                    <div class="banner-content">
+                        <h1>品质服务保障</h1>
+                        <p>用心服务每一位客户</p>
+                    </div>
+                </div>
+                <div class="banner-slide">
+                    <img src="https://images.unsplash.com/photo-1565183928294-7063f23ce0f8?w=1600&h=900&fit=crop" alt="智能家居">
+                    <div class="banner-content">
+                        <h1>全屋智能定制</h1>
+                        <p>打造理想的智能家居生活</p>
+                    </div>
+                </div>
+            </div>
+            <div class="banner-dots"></div>
+        </div>
+    </section>
+
+    <!-- 产品展示 -->
+    <section class="section" id="products" data-aos="fade-up">
+        <h2>产品展示</h2>
+        <div class="grid">
+            <div class="product-card">
+                <div class="promotion-tag">热销</div>
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=500&h=300&fit=crop" alt="冰箱" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">智能变频冰箱</h3>
+                    <p>高效节能，保鲜持久</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="product-price">¥3999</p>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1626806787461-102c1bfaaea1?w=500&h=300&fit=crop" alt="洗衣机" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">全自动洗衣机</h3>
+                    <p>智能洗涤，洁净如新</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <p class="product-price">¥2999</p>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="promotion-tag">新品</div>
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1628813640706-ca188c81采01?w=500&h=300&fit=crop" alt="空调" loading="lazy">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">变频空调</h3>
+                    <p>舒适凉爽，静音节能</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="product-price">¥4599</p>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="range_hood.jpg" alt="油烟机" onerror="this.parentElement.innerHTML='<div>油</div>'">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">智能油烟机</h3>
+                    <p>强力吸烟，清新厨房</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <p class="product-price">¥2499</p>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="promotion-tag">优惠</div>
+                <div class="product-image">
+                    <img src="gas_stove.jpg" alt="燃气灶" onerror="this.parentElement.innerHTML='<div>燃</div>'">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">双灶燃气灶</h3>
+                    <p>高效燃烧，安全可靠</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p class="product-price">¥1299</p>
+                </div>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="sink.jpg" alt="水槽" onerror="this.parentElement.innerHTML='<div>水</div>'">
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">304不锈钢水槽</h3>
+                    <p>耐用美观，易于清洁</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                    <p class="product-price">¥899</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 品牌故事 -->
+    <section class="section brand-story" id="brand-story" data-aos="fade-up">
+        <h2>品牌故事</h2>
+        <div class="story-container">
+            <div class="story-image" data-aos="fade-right">
+                <img src="brand-story.jpg" alt="罗密森发展历程" onerror="this.src='https://via.placeholder.com/500x300?text=罗密森发展历程'">
+            </div>
+            <div class="story-content" data-aos="fade-left">
+                <h3>匠心传承 品质为先</h3>
+                <p>罗密森品牌创立于2010年，秉承"以质取胜，以诚服务"的经营理念，专注于高品质家用电器和厨卫产品的研发与销售。十余年来，我们始终坚持产品创新，追求卓越品质，为千万家庭带来优质的生活体验。</p>
+                <div class="milestone-grid">
+                    <div class="milestone">
+                        <i class="fas fa-award"></i>
+                        <h4>2010年</h4>
+                        <p>品牌创立</p>
+                    </div>
+                    <div class="milestone">
+                        <i class="fas fa-store"></i>
+                        <h4>2015年</h4>
+                        <p>全省连锁店突破50家</p>
+                    </div>
+                    <div class="milestone">
+                        <i class="fas fa-certificate"></i>
+                        <h4>2018年</h4>
+                        <p>获得行业质量认证</p>
+                    </div>
+                    <div class="milestone">
+                        <i class="fas fa-users"></i>
+                        <h4>2023年</h4>
+                        <p>服务客户超10万户</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 新闻动态 -->
+    <section class="section news" id="news" data-aos="fade-up">
+        <h2>新闻动态</h2>
+        <div class="news-grid">
+            <div class="news-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="news-image">
+                    <img src="news1.jpg" alt="新品发布会" onerror="this.src='https://via.placeholder.com/300x200?text=新品发布会'">
+                    <div class="news-date">
+                        <span class="day">15</span>
+                        <span class="month">六月</span>
+                    </div>
+                </div>
+                <div class="news-content">
+                    <h3>2024年新品发布会圆满举行</h3>
+                    <p>罗密森2024年度新品发布会在太原成功举办，发布多款智能家电新品...</p>
+                    <a href="#" class="read-more">查看详情 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="news-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="news-image">
+                    <img src="news2.jpg" alt="技术创新" onerror="this.src='https://via.placeholder.com/300x200?text=技术创新'">
+                    <div class="news-date">
+                        <span class="day">08</span>
+                        <span class="month">六月</span>
+                    </div>
+                </div>
+                <div class="news-content">
+                    <h3>荣获"年度技术创新奖"</h3>
+                    <p>罗密森凭借领先的产品技术和创新理念，获得行业权威机构颁发的奖项...</p>
+                    <a href="#" class="read-more">查看详情 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="news-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="news-image">
+                    <img src="news3.jpg" alt="公益活动" onerror="this.src='https://via.placeholder.com/300x200?text=公益活动'">
+                    <div class="news-date">
+                        <span class="day">01</span>
+                        <span class="month">六月</span>
+                    </div>
+                </div>
+                <div class="news-content">
+                    <h3>爱心助学活动启动</h3>
+                    <p>罗密森启动"筑梦未来"公益助学计划，帮助山区儿童改善学习环境...</p>
+                    <a href="#" class="read-more">查看详情 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 客户评价 -->
+    <section class="section testimonials" id="testimonials" data-aos="fade-up">
+        <h2>客户评价</h2>
+        <div class="testimonial-slider">
+            <div class="testimonial-track">
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="testimonial-avatar">
+                        <img src="avatar1.jpg" alt="客户头像" onerror="this.src='https://via.placeholder.com/80x80?text=客户'">
+                    </div>
+                    <div class="testimonial-content">
+                        <p>"罗密森的产品质量非常好，售后服务也很贴心，真的是买得放心用得舒心！"</p>
+                        <div class="testimonial-info">
+                            <h4>张女士</h4>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="testimonial-avatar">
+                        <img src="avatar2.jpg" alt="客户头像" onerror="this.src='https://via.placeholder.com/80x80?text=客户'">
+                    </div>
+                    <div class="testimonial-content">
+                        <p>"智能冰箱的功能很实用，能够自动调节温度，保鲜效果特别好，很满意这次购买。"</p>
+                        <div class="testimonial-info">
+                            <h4>李先生</h4>
+                            <div class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 合作品牌 -->
+    <section class="section partners" id="partners" data-aos="fade-up">
+        <h2>合作品牌</h2>
+        <div class="partner-grid">
+            <div class="partner-logo" data-aos="zoom-in" data-aos-delay="100">
+                <img src="brand1.png" alt="合作品牌" onerror="this.src='https://via.placeholder.com/150x80?text=品牌1'">
+            </div>
+            <div class="partner-logo" data-aos="zoom-in" data-aos-delay="200">
+                <img src="brand2.png" alt="合作品牌" onerror="this.src='https://via.placeholder.com/150x80?text=品牌2'">
+            </div>
+            <div class="partner-logo" data-aos="zoom-in" data-aos-delay="300">
+                <img src="brand3.png" alt="合作品牌" onerror="this.src='https://via.placeholder.com/150x80?text=品牌3'">
+            </div>
+            <div class="partner-logo" data-aos="zoom-in" data-aos-delay="400">
+                <img src="brand4.png" alt="合作品牌" onerror="this.src='https://via.placeholder.com/150x80?text=品牌4'">
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section class="section" id="about" data-aos="fade-up">
+        <h2>关于我们</h2>
+        <div class="grid">
+            <div class="about-card">
+                <i class="fas fa-history"></i>
+                <h3>公司历史</h3>
+                <p>成立于2010年，专注于家用电器和厨卫用品，十余年来持续为客户提供优质产品。</p>
+            </div>
+            <div class="about-card">
+                <i class="fas fa-users"></i>
+                <h3>专业团队</h3>
+                <p>拥有50余名经验丰富的销售和技术支持团队，为您提供专业服务。</p>
+            </div>
+            <div class="about-card">
+                <i class="fas fa-award"></i>
+                <h3>成功案例</h3>
+                <p>累计服务超过10000家庭，客户满意度高达98%，是您值得信赖的选择。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务特色 -->
+    <section class="section" id="services" data-aos="fade-up">
+        <h2>服务特色</h2>
+        <div class="grid">
+            <div class="service-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>品质保障</h3>
+                <p>所有产品均经过严格质检，确保品质。</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-truck"></i>
+                <h3>快速配送</h3>
+                <p>覆盖全省，24小时内送达。</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-headset"></i>
+                <h3>售后无忧</h3>
+                <p>7×24小时售后服务，让您无后顾之忧。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section class="section contact" id="contact" data-aos="fade-up">
+        <h2>联系我们</h2>
+        <div class="contact-form">
+            <form>
+                <input type="text" placeholder="您的姓名" required>
+                <input type="email" placeholder="电子邮箱" required>
+                <textarea placeholder="请输入您的留言" rows="5" required></textarea>
+                <button type="submit">提交留言</button>
+            </form>
+        </div>
+        <div style="margin-top: 2rem; text-align: center;">
+            <p><i class="fas fa-map-marker-alt"></i> 地址：山西省太原市小店区罗密森大厦</p>
+            <p><i class="fas fa-phone"></i> 电话：0351-XXXXXXXX</p>
+            <p><i class="fas fa-envelope"></i> 邮箱：info@luomisen.com</p>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>公司地址</h3>
+                <p>山西省太原市小店区</p>
+                <p>罗密森大厦</p>
+            </div>
+            <div class="footer-column">
+                <h3>联系方式</h3>
+                <p>电话：0351-XXXXXXXX</p>
+                <p>邮箱：info@luomisen.com</p>
+            </div>
+            <div class="footer-column">
+                <h3>社交媒体</h3>
+                <p><i class="fab fa-weixin"></i> 微信公众号</p>
+                <p><i class="fab fa-weibo"></i> 官方微博</p>
+            </div>
+            <div class="footer-column">
+                <h3>快速链接</h3>
+                <p><a href="#home">返回首页</a></p>
+                <p><a href="#about">关于我们</a></p>
+                <p><a href="#products">产品展示</a></p>
+                <p><a href="#services">服务特色</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- AI客服 -->
+    <div class="ai-customer-service">
+        <button id="chat-button">
+            <i class="fas fa-robot"></i> 智能客服
+        </button>
+        <div id="chat-window" class="chat-window">
+            <div class="chat-header">
+                <h3><i class="fas fa-robot"></i> 罗密森智能客服</h3>
+                <button class="chat-close"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="chat-messages">
+                <div class="message assistant">
+                    <p>您好！我是罗密森智能客服助手，很高兴为您服务。请问有什么可以帮您？</p>
+                </div>
+            </div>
+            <div class="chat-input">
+                <div class="input-wrapper">
+                    <input type="text" id="chat-input" placeholder="请输入您的问题...">
+                    <button id="send-button">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        // 修改加载动画逻辑
+        document.addEventListener('DOMContentLoaded', () => {
+            const loading = document.querySelector('.loading');
+            if (loading) {
+                loading.classList.add('hidden');
+                setTimeout(() => {
+                    loading.remove();
+                }, 500);
+            }
+        });
+
+        // 如果5秒后还没加载完，也移除加载动画
+        setTimeout(() => {
+            const loading = document.querySelector('.loading');
+            if (loading) {
+                loading.classList.add('hidden');
+                setTimeout(() => {
+                    loading.remove();
+                }, 500);
+            }
+        }, 5000);
+
+        // 图片懒加载
+        document.addEventListener('DOMContentLoaded', () => {
+            const images = document.querySelectorAll('img[data-src]');
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.removeAttribute('data-src');
+                        observer.unobserve(img);
+                    }
+                });
+            });
+
+            images.forEach(img => imageObserver.observe(img));
+        });
+
+        // 性能优化：防抖函数
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // 优化滚动事件
+        const handleScroll = debounce(() => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        }, 100);
+
+        window.addEventListener('scroll', handleScroll);
+
+        // 初始化AOS
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 100
+        });
+
+        // AI客服功能优化
+        document.addEventListener('DOMContentLoaded', () => {
+            const chatButton = document.getElementById('chat-button');
+            const chatWindow = document.getElementById('chat-window');
+            const chatClose = document.querySelector('.chat-close');
+            const chatMessages = document.querySelector('.chat-messages');
+            const chatInput = document.getElementById('chat-input');
+            const sendButton = document.getElementById('send-button');
+            let chatHistory = [];
+
+            // 从本地存储加载聊天记录
+            const savedHistory = localStorage.getItem('chatHistory');
+            if (savedHistory) {
+                chatHistory = JSON.parse(savedHistory);
+                chatHistory.forEach(msg => {
+                    appendMessage(msg.role, msg.content);
+                });
+            }
+
+            // 打开/关闭聊天窗口
+            chatButton.addEventListener('click', () => {
+                chatWindow.style.display = 'flex';
+                requestAnimationFrame(() => {
+                    chatWindow.style.opacity = '1';
+                    chatInput.focus();
+                });
+            });
+
+            chatClose.addEventListener('click', () => {
+                chatWindow.style.opacity = '0';
+                setTimeout(() => {
+                    chatWindow.style.display = 'none';
+                }, 300);
+            });
+
+            // 发送消息
+            function sendMessage() {
+                const message = chatInput.value.trim();
+                if (!message) return;
+
+                appendMessage('user', message);
+                chatInput.value = '';
+                
+                // 显示输入中动画
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'typing-indicator';
+                typingIndicator.innerHTML = '<span></span><span></span><span></span>';
+                chatMessages.appendChild(typingIndicator);
+                
+                // 自动滚动到底部
+                scrollToBottom();
+
+                // 模拟AI响应
+                setTimeout(() => {
+                    typingIndicator.remove();
+                    const response = getAIResponse(message);
+                    appendMessage('assistant', response);
+                    scrollToBottom();
+                    
+                    // 保存聊天记录
+                    chatHistory.push(
+                        { role: 'user', content: message },
+                        { role: 'assistant', content: response }
+                    );
+                    localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+                }, 1000);
+            }
+
+            sendButton.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') sendMessage();
+            });
+
+            // 添加消息到聊天窗口
+            function appendMessage(role, content) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${role}`;
+                messageDiv.innerHTML = `<p>${content}</p>`;
+                chatMessages.appendChild(messageDiv);
+                scrollToBottom();
+            }
+
+            // 滚动到底部
+            function scrollToBottom() {
+                requestAnimationFrame(() => {
+                    chatMessages.scrollTo({
+                        top: chatMessages.scrollHeight,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+
+            // 模拟AI响应（实际项目中应替换为真实的AI接口）
+            function getAIResponse(message) {
+                const responses = {
+                    '价格': '我们的产品价格根据型号和配置有所不同，您可以查看产品展示页面的详细价格信息，或告诉我您感兴趣的具体产品，我可以为您提供更详细的价格说明。',
+                    '售后': '我们提供7×24小时售后服务，保修期内的产品享受免费维修服务。如果您遇到任何问题，可以拨打售后热线：0351-XXXXXXXX。',
+                    '配送': '我们承诺24小时内送达太原市区，其他地区一般2-3天内送达。如需了解具体配送时间，请提供您的详细地址。',
+                    '产品': '我们提供各类家用电器和厨卫产品，包括冰箱、洗衣机、空调、油烟机等。您可以在产品展示页面查看详细信息。',
+                    '默认': '感谢您的咨询。请问您想了解哪些具体信息？我可以为您提供产品介绍、价格查询、售后服务等相关帮助。'
+                };
+
+                for (const key in responses) {
+                    if (message.includes(key)) {
+                        return responses[key];
+                    }
+                }
+                return responses['默认'];
+            }
+        });
+    </script>
+</body>
+</html>
